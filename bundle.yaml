@@ -1,0 +1,5 @@
+---
+- name: Setup pre-requisites
+  hosts: localhost
+  roles:
+    - bundle

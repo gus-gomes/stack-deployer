@@ -1,0 +1,10 @@
+---
+- name: k3s | Run k3s uninstall script
+  become: true
+  command: /usr/local/bin/k3s-uninstall.sh
+  ignore_errors: true
+
+- name: k3s | Run k3s uninstall script
+  become: true
+  command: /usr/local/bin/k3s-agent-uninstall.sh
+  ignore_errors: true

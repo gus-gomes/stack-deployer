@@ -1,0 +1,15 @@
+---
+- name: Stack Deployer Install
+  hosts: all
+  block:
+    - name: k3s | Install
+      tasks:
+        - import_role:
+            name: k3s
+            tasks_from: prereq
+    - name: Cert-manager | Install
+      tasks:
+        - import_role:
+            name: cert-manager
+            tasks_from: prereq
+      when: enable_cert_manager

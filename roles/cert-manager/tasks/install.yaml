@@ -1,0 +1,5 @@
+---
+- name: Cert-manager | Copy manifests k3s dir
+  ansible.builtin.template:
+    src: "../files/cert-manager.yaml"
+    dest: "{{ local_bundle_manifests_dir }}/"
