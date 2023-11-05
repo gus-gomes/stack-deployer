@@ -1,16 +1,39 @@
 ---
-- name: Stack Deployer Pre-requisites
-  hosts: all
-  block:
-    - name: k3s | Pre-requisites
-      tasks:
-        - import_role:
+- name: Pre-Requisites Kubernetes
+  hosts: controllers
+  vars:
+    role_action: "prereq"
+  tasks:
+    - block:
+        - include_role:
             name: k3s
-            tasks_from: prereq
-    - name: Cert-manager | Pre-requisites
-      tasks:
-        - import_role:
-            name: cert-manager
-            tasks_from: prereq
-      when: enable_cert_manager
+            apply:
+              tags:
+                - k3s
+          tags:
+            - always
+      rescue:
+        - name: Pre-Requisites k3s errors
+          ansible.builtin.fail:
+            msg: 'Error during {{ ansible_failed_task.name }}. Please run: make pre-requisites OPTS="--tags k3s" '
 
+- name: Pre-Requisites Base 
+  hosts: controllers
+  vars:
+    role_action: "prereq"
+  tasks:
+    - block:
+        - name: Pre-Requisites Base components
+          include_role:
+            name: "{{ item }}"
+            apply:
+              tags:
+                - base
+          tags:
+            - always
+          with_items:
+            - ["cert-manager"]
+      rescue:
+        - name: Pre-Requisites Base errors
+          ansible.builtin.fail:
+            msg: 'Error during {{ ansible_failed_task.name }}. Please run: make pre-requisites OPTS="--tags base" '

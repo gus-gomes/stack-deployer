@@ -1,0 +1,7 @@
+---
+- name: Stack Deployer Uninstall
+  hosts: all
+  tasks:
+  - import_role:
+      name: k3s
+      tasks_from: uninstall

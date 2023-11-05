@@ -1,15 +1,45 @@
 ---
-- name: Stack Deployer Install
-  hosts: all
-  block:
-    - name: k3s | Install
-      tasks:
-        - import_role:
+- name: Install kubernetes 
+  hosts: controllers
+  tasks:
+    - block:
+        - name: k3s | Install
+          vars:
+            role_action: "{{ item }}"
+          include_role:
             name: k3s
-            tasks_from: prereq
-    - name: Cert-manager | Install
-      tasks:
-        - import_role:
-            name: cert-manager
-            tasks_from: prereq
-      when: enable_cert_manager
+            apply:
+              tags:
+                - k3s
+          tags:
+            - always
+          with_items:
+            - "install"
+            - "post-install"
+      rescue:
+        - name: install k3s errors
+          ansible.builtin.fail:
+            msg: 'Error during {{ ansible_failed_task.name }}. Please run: make install OPTS="--tags k3s"'
+
+- name: Install Base
+  hosts: controllers
+  tasks:
+    - block:
+        - name: Cert-manager | Install
+          vars:
+            role_action: "{{ item.0 }}"
+          include_role:
+            name: "{{ item.1 }}"
+            apply:
+              tags:
+                - base
+          tags:
+            - always
+          with_nested:
+            - ["install", "post-install"]
+            - ["cert-manager"]
+      rescue:
+        - name: install Base errors
+          ansible.builtin.fail:
+            msg: 'Error during {{ ansible_failed_task.name }}. Please run: make install OPTS="--skip-tags k3s" '
+
