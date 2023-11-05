@@ -11,6 +11,12 @@
     state: directory
   delegate_to: localhost
 
+- name: k3s | Get K9s
+  ansible.builtin.get_url:
+    url: "{{ k9s_url }}"
+    dest: "{{ local_bundle_dir }}/k9s_Linux.tar.gz"
+    mode: "0664"
+
 - include_tasks: k3s.yaml
 
 - include_tasks: cert-manager.yaml

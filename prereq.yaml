@@ -16,24 +16,3 @@
         - name: Pre-Requisites k3s errors
           ansible.builtin.fail:
             msg: 'Error during {{ ansible_failed_task.name }}. Please run: make pre-requisites OPTS="--tags k3s" '
-
-- name: Pre-Requisites Base 
-  hosts: controllers
-  vars:
-    role_action: "prereq"
-  tasks:
-    - block:
-        - name: Pre-Requisites Base components
-          include_role:
-            name: "{{ item }}"
-            apply:
-              tags:
-                - base
-          tags:
-            - always
-          with_items:
-            - ["cert-manager"]
-      rescue:
-        - name: Pre-Requisites Base errors
-          ansible.builtin.fail:
-            msg: 'Error during {{ ansible_failed_task.name }}. Please run: make pre-requisites OPTS="--tags base" '

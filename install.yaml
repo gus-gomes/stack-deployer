@@ -15,7 +15,6 @@
             - always
           with_items:
             - "install"
-            - "post-install"
       rescue:
         - name: install k3s errors
           ansible.builtin.fail:

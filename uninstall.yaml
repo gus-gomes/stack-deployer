@@ -1,7 +1,17 @@
 ---
 - name: Stack Deployer Uninstall
-  hosts: all
+  hosts: controllers
   tasks:
-  - import_role:
-      name: k3s
-      tasks_from: uninstall
+    - block:
+        - name: k3s | Install
+          vars:
+            role_action: "{{ item }}"
+          include_role:
+            name: k3s
+            apply:
+              tags:
+                - k3s
+          tags:
+            - always
+          with_items:
+            - "install"

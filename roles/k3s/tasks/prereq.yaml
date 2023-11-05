@@ -1,10 +1,4 @@
---
-- name: k3s | Get K9s
-  ansible.builtin.get_url:
-    url: "{{ k9s_url }}"
-    dest: "/tmp/k9s_Linux.tar.gz"
-    mode: "0664"
-
+---
 - name: k3s | Create temporary K9s directory
   ansible.builtin.file:
     state: directory
@@ -12,7 +6,7 @@
 
 - name: k3s | Unpack K9s
   ansible.builtin.unarchive:
-    src: "/tmp/k9s_Linux.tar.gz"
+    src: "{{ local_bundle_dir }}/k9s_Linux.tar.gz"
     dest: "/tmp/k9s"
     remote_src: true
 
