@@ -11,7 +11,7 @@
 
   - name: Copy inventory template file
     ansible.builtin.copy:
-      src: "{{ playbook_dir }}/inventory_template/{{ item }}"
+      src: "{{ playbook_dir }}/inventory/{{ item }}"
       dest: "{{ config_dir }}/{{ item }}"
       force: false
       follow: true
@@ -32,7 +32,7 @@
 
   - name: Generate random secrets for the components
     ansible.builtin.template:
-      src: "{{ playbook_dir }}/inventory_template/secrets.yaml.j2"
+      src: "{{ playbook_dir }}/inventory/secrets.yaml.j2"
       dest: "{{ config_dir }}/secrets.yaml"
 
   - name: Encrypt secrets.yaml with current Vault key
