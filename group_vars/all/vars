@@ -13,3 +13,6 @@ bundle_name: "stack-deployer"
 local_bundle_dir: "{{ playbook_dir }}/bundle/{{ bundle_name }}"
 local_bundle_manifests_dir: "{{ playbook_dir }}/bundle/{{ bundle_name }}/manifests"
 certs_dir: "/home/{{ ansible_user }}/.certs/"
+
+k3s_manifests_dir: "/var/lib/rancher/k3s/server/manifests"
+k3s_images_dir: "/var/lib/rancher/k3s/agent/images"

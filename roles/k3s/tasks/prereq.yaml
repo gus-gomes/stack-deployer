@@ -37,7 +37,7 @@
 - name: k3s | Ensure the k3s manifests directory exists
   become: true
   ansible.builtin.file:
-    path: "/var/lib/rancher/k3s/server/manifests"
+    path: "{{ k3s_manifests_dir }}"
     state: "directory"
     mode: "+x"
 
@@ -52,7 +52,7 @@
 - name: k3s | Ensure the k3s images directory exists
   become: true
   ansible.builtin.file:
-    path: "/var/lib/rancher/k3s/agent/images/"
+    path: "{{ k3s_images_dir }}"
     state: "directory"
     mode: "+x"
 
@@ -60,7 +60,7 @@
   become: true
   ansible.builtin.unarchive:
     src: "{{ local_bundle_dir }}/k3s-airgap-images.tar.gz"
-    dest: "/var/lib/rancher/k3s/agent/images/"
+    dest: "{{ k3s_images_dir }}"
     remote_src: true
 
 - name: k3s | Stop firewall service
@@ -73,6 +73,6 @@
   become: true
   ansible.builtin.copy:
     src: "{{ local_bundle_manifests_dir }}/"
-    dest: "/var/lib/rancher/k3s/server/manifests/"
+    dest: "{{ k3s_manifests_dir }}"
     mode: "0644"
     remote_src: true

@@ -29,9 +29,4 @@
   - name: Cert-manager | Generate cluster issuer
     ansible.builtin.template:
       src: issuer.yaml.j2
-      dest: "{{ local_bundle_dir }}/issuer.yaml"
-
-  - name: Cert-manager | Apply cluster issuer
-    kubernetes.core.k8s:
-      state: present
-      src: "{{ local_bundle_dir }}/issuer.yaml"
+      dest: "{{ k3s_manifests_dir }}/issuer.yaml"

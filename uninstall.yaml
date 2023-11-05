@@ -5,7 +5,7 @@
     - block:
         - name: k3s | Install
           vars:
-            role_action: "{{ item }}"
+            role_action: "uninstall"
           include_role:
             name: k3s
             apply:
@@ -13,5 +13,3 @@
                 - k3s
           tags:
             - always
-          with_items:
-            - "install"
