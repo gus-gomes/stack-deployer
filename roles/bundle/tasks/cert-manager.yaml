@@ -1,8 +1,7 @@
 ---
-- name: Cert-manager | Download cert_manager manifests
+- name: Cert-manager | Download cert-manager crds
   ansible.builtin.get_url:
-    url: "{{ item }}"
-    dest: "{{ local_bundle_manifests_dir }}/"
-    mode: "0644"
-  with_items: 
-    - "{{ cert_manager_crds_url }}"
+    url: "{{ cert_manager_crds_url }}"
+    dest: "{{ local_bundle_manifests_dir }}/cert-manager-crds.yaml"
+    mode: "+x"
+    validate_certs: false
