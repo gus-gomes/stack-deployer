@@ -2,5 +2,6 @@ controllers:
   hosts:
     hostname:
       ansible_host:
-      ansible_user:
-      ansible_pass:
+      ansible_connection: ssh
+      ansible_user: 
+      ansible_ssh_pass:
