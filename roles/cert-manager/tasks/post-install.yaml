@@ -16,14 +16,14 @@
       state: directory
 
   - name: Cert-manager | Generate CA cert and key
-    ansible.builtin.shell: "openssl req -x509 -newkey rsa:2048 -keyout {{ remote_certs_dir }}/key.pem -out {{ remote_certs_dir }}/ca.pem -days 3650 -subj /CN=testca -batch -nodes"
+    ansible.builtin.shell: "openssl req -x509 -newkey rsa:2048 -keyout {{ certs_dir }}/key.pem -out {{ certs_dir }}/ca.pem -days 3650 -subj /CN=testca -batch -nodes"
 
   - name: Cert-manager | Register CA cert in base64
-    ansible.builtin.shell: "cat {{ remote_certs_dir }}/ca.pem | base64 -w0"
+    ansible.builtin.shell: "cat {{ certs_dir }}/ca.pem | base64 -w0"
     register: ca_cert
 
   - name: Cert-manager | Register CA key in base64
-    ansible.builtin.shell: "cat {{ remote_certs_dir }}/key.pem | base64 -w0"
+    ansible.builtin.shell: "cat {{ certs_dir }}/key.pem | base64 -w0"
     register: ca_key
 
   - name: Cert-manager | Generate cluster issuer
