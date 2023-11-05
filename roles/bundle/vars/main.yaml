@@ -1,0 +1,20 @@
+#################
+## Public Urls ##
+#################
+
+#########
+## K3s ##
+#########
+k3s_binary_url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s"
+k3s_airgap_images_url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-airgap-images-amd64.tar.gz"
+k3s_install_script: "https://get.k3s.io"
+
+##################
+## Cert-manager ##
+##################
+cert_manager_crds_url: "https://github.com/jetstack/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml"
+
+#########
+## k9s ##
+#########
+k9s_url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"

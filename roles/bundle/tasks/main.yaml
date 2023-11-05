@@ -1,0 +1,23 @@
+---
+- name: Create local bundle directory
+  ansible.builtin.file:
+    path: "{{ local_bundle_dir }}"
+    state: directory
+  delegate_to: localhost
+
+- name: Create local bundle manifests directory
+  ansible.builtin.file:
+    path: "{{ local_bundle_manifests_dir }}"
+    state: directory
+  delegate_to: localhost
+
+- include_tasks: k3s.yml
+
+- include_tasks: cert-manager.yml
+  when: enable_cert_manager
+
+- name: Archive the bundle and the Ansible playbooks
+  ansible.builtin.archive:
+    path: "{{ playbook_dir }}"
+    dest: "{{ playbook_dir }}/../{{ bundle_name }}.tgz"
+  delegate_to: localhost

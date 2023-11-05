@@ -1,0 +1,84 @@
+--
+- name: Get K9s
+  ansible.builtin.get_url:
+    url: "{{ k9s_url }}"
+    dest: "/tmp/k9s_Linux.tar.gz"
+    mode: "0664"
+
+- name: Create temporary K9s directory
+  ansible.builtin.file:
+    state: directory
+    path: "/tmp/k9s"
+
+- name: Unpack K9s
+  ansible.builtin.unarchive:
+    src: "/tmp/k9s_Linux.tar.gz"
+    dest: "/tmp/k9s"
+    remote_src: true
+
+- name: Install K9s
+  become: true
+  ansible.builtin.copy:
+    src: "/tmp/k9s/k9s"
+    dest: "/usr/bin/k9s"
+    mode: "+x"
+    remote_src: true
+
+- name: Cleaning Up temporary K9s installation files
+  become: true
+  ansible.builtin.file:
+    path: "/tmp/{{ item }}"
+    state: absent
+  with_items:
+    - "k9s_Linux.tar.gz"
+    - "k9s"
+  
+- name: Ensure the k3s config directory exists
+  become: true
+  ansible.builtin.file:
+    path: "/etc/rancher/k3s/"
+    state: "directory"
+    mode: "+x"
+
+- name: Ensure the k3s manifests directory exists
+  become: true
+  ansible.builtin.file:
+    path: "/var/lib/rancher/k3s/server/manifests"
+    state: "directory"
+    mode: "+x"
+
+- name: Place the k3s binary at /usr/local/bin/k3s and ensure it is executable
+  become: true
+  ansible.builtin.copy:
+    src: "{{ local_bundle_dir }}/k3s"
+    dest: "/usr/local/bin/k3s"
+    remote_src: true
+    mode: "+x"
+
+- name: Ensure the k3s images directory exists
+  become: true
+  ansible.builtin.file:
+    path: "/var/lib/rancher/k3s/agent/images/"
+    state: "directory"
+    mode: "+x"
+
+- name: Place the images tar file in the images directory
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ local_bundle_dir }}/k3s-airgap-images.tar.gz"
+    dest: "/var/lib/rancher/k3s/agent/images/"
+    remote_src: true
+
+- name: Stop firewall service
+  become: true
+  ansible.builtin.systemd:
+    name: ufw
+    state: stopped
+
+- name: Copy the bundled manifest to the k3s manifest directory
+  become: true
+  ansible.builtin.copy:
+    src: "{{ local_bundle_manifests_dir }}/"
+    dest: "/var/lib/rancher/k3s/server/manifests/"
+    mode: "0644"
+    remote_src: true
