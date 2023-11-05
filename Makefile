@@ -35,7 +35,7 @@ bundle-stack:
 all: pre-requisites install
 
 pre-requisites:
-	$(ANS_COMMAND_LINE) pre-requisites.yaml $(OPTS)
+	$(ANS_COMMAND_LINE) prereq.yaml $(OPTS)
 
 install:
 	$(ANS_COMMAND_LINE) install.yaml $(OPTS)
