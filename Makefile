@@ -10,7 +10,7 @@ $(info # using inventory ${INVENTORY_DIR})
 endif
 
 # default vault password file
-export ANSIBLE_VAULT_PASSWORD_FILE?=~/.te-vault
+export ANSIBLE_VAULT_PASSWORD_FILE?=~/.vault
 
 # default ansible config
 ifneq ("$(wildcard ${INVENTORY_DIR}/ansible.cfg)", "")
