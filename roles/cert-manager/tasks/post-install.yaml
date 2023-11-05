@@ -27,6 +27,7 @@
     register: ca_key
 
   - name: Cert-manager | Generate cluster issuer
+    become: true
     ansible.builtin.template:
       src: issuer.yaml.j2
       dest: "{{ k3s_manifests_dir }}/issuer.yaml"
