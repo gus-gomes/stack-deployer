@@ -27,7 +27,7 @@ ANS_COMMAND_LINE=${ANSIBLE_PLAYBOOK_TOOL} \
 
 #-e @${INVENTORY_DIR}/secrets.yaml
 
-bundle:
+bundle-stack:
 	$(ANS_COMMAND_LINE) bundle.yaml $(OPTS)
 
 ## Deployment Targets
