@@ -11,9 +11,9 @@
     state: directory
   delegate_to: localhost
 
-- include_tasks: k3s.ymal
+- include_tasks: k3s.yaml
 
-- include_tasks: cert-manager.ymal
+- include_tasks: cert-manager.yaml
   when: enable_cert_manager
 
 - name: Archive the bundle and the Ansible playbooks
