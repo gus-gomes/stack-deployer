@@ -23,8 +23,9 @@ OPTS?=
 ANSIBLE_PLAYBOOK_TOOL?=ansible-playbook
 ANS_COMMAND_LINE=${ANSIBLE_PLAYBOOK_TOOL} \
 	-i ${INVENTORY_DIR}/hosts.yaml \
-	-e @${INVENTORY_DIR}/globals.yaml \
-	-e @${INVENTORY_DIR}/secrets.yaml
+	-e @${INVENTORY_DIR}/globals.yaml
+
+#-e @${INVENTORY_DIR}/secrets.yaml
 
 bundle:
 	$(ANS_COMMAND_LINE) bundle.yaml $(OPTS)
