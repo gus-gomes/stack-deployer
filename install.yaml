@@ -14,13 +14,13 @@
           tags:
             - always
           with_items:
-            - "install"
+            - ["prereq", "install"]
       rescue:
         - name: install k3s errors
           ansible.builtin.fail:
             msg: 'Error during {{ ansible_failed_task.name }}. Please run: make install OPTS="--tags k3s"'
 
-- name: Install Base
+- name: Install Other Components
   hosts: controllers
   tasks:
     - block:
