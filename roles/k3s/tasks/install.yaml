@@ -36,3 +36,9 @@
     dest: "/home/{{ ansible_user }}/.kube/config"
     remote_src: true
     mode: 0644
+
+- name: k3s | Restart service
+  become: true
+  ansible.builtin.service:
+    name: k3s
+    state: restarted

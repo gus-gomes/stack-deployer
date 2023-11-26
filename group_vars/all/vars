@@ -4,7 +4,7 @@
 ## Versions ##
 ##############
 k3s_version: "v1.26.10%2Bk3s1"
-k9s_version: "v0.27.4"
+k9s_version: "v0.28.3"
 cert_manager_version: "v1.13.2"
 
 
