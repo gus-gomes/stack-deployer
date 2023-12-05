@@ -21,8 +21,10 @@
 - name: k3s | Cleaning Up temporary K9s installation files
   become: true
   ansible.builtin.file:
-    path: "/tmp/{{ item }}"
+    path: "/tmp/{{ k9s }}"
     state: absent
+  loop_control:
+    loop_var: k9s
   with_items:
     - "k9s_Linux.tar.gz"
     - "k9s"

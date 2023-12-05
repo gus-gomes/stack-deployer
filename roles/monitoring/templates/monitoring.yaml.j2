@@ -15,3 +15,9 @@ spec:
   chart: https://%{KUBERNETES_API}%/static/charts/kube-prometheus-stack-{{ monitoring }}.tgz 
   version: "{{ monitoring }}"
   targetNamespace: monitoring
+  valuesContent: |-
+    grafana:
+      ingress:
+        enabled: true
+        hosts:
+          - grafana.{{ domain }}
