@@ -1,4 +1,10 @@
 ---
+- name: Monitoring | Copy charts to k3s charts dir
+  become: true
+  ansible.builtin.copy:
+    src: "../files/kube-prometheus-stack-55.0.0.tgz"
+    dest: "{{ k3s_charts_dir }}"
+
 - name: Monitoring | Copy manifests to k3s dir
   become: true
   ansible.builtin.template:
