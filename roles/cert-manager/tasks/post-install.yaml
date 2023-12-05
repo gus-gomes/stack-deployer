@@ -1,5 +1,5 @@
 ---
-- name: Cert-manager | Wait for Kubernetes API availability
+- name: Cert-manager | Wait for availability
   kubernetes.core.k8s_info:
     kind: Pods
     namespace: cert-manager
