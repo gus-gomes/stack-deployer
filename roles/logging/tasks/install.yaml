@@ -1,0 +1,12 @@
+---
+- name: Logging | Copy charts to k3s charts dir
+  become: true
+  ansible.builtin.copy:
+    src: "../files/logging-operator-3.17.10.tar"
+    dest: "{{ k3s_charts_dir }}"
+
+- name: Logging | Copy manifests to k3s dir
+  become: true
+  ansible.builtin.template:
+    src: "../templates/logging.yaml.j2"
+    dest: "{{ k3s_manifests_dir }}/logging.yaml"

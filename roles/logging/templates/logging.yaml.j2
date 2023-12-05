@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logging
+  labels:
+    name: logging
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: logging
+  namespace: logging 
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/logging-operator-{{ logging }}.tar 
+  version: "{{ logging }}"
+  targetNamespace: logging
+  valuesContent: |-
+    grafana:
+      service:
+        type: NodePort
