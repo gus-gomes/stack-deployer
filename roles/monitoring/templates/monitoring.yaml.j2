@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+  labels:
+    name: monitoring
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: monitoring
+  namespace: monitoring 
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/kube-prometheus-stack-{{ monitoring }}.tgz 
+  version: "{{ monitoring }}"
+  targetNamespace: monitoring

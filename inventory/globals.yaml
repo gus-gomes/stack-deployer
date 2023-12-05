@@ -3,3 +3,4 @@ domain:
 enable_generate_ca: false
 enable_cert_manager: false
 enable_opni: false
+enable_monitoring: false

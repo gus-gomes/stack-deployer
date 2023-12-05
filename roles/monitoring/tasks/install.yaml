@@ -1,0 +1,6 @@
+---
+- name: Monitoring | Copy manifests to k3s dir
+  become: true
+  ansible.builtin.template:
+    src: "../templates/monitoring.yaml.j2"
+    dest: "{{ k3s_manifests_dir }}/monitoring.yaml"

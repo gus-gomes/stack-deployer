@@ -16,7 +16,7 @@
           with_items:
             - ["prereq", "install"]
       rescue:
-        - name: install k3s errors
+        - name: Install k3s errors
           ansible.builtin.fail:
             msg: 'Error during {{ ansible_failed_task.name }}. Please run: make install OPTS="--tags k3s"'
 
@@ -24,21 +24,21 @@
   hosts: controllers
   tasks:
     - block:
-        - name: Cert-manager | Install
+        - name: Install
           vars:
             role_action: "{{ item.0 }}"
           include_role:
             name: "{{ item.1 }}"
             apply:
               tags:
-                - base
+                - other
           tags:
             - always
           with_nested:
             - ["install", "post-install"]
-            - ["cert-manager","opni"]
+            - ["cert-manager","opni", "monitoring"]
       rescue:
-        - name: install Base errors
+        - name: Installation errors
           ansible.builtin.fail:
             msg: 'Error during {{ ansible_failed_task.name }}. Please run: make install OPTS="--skip-tags k3s" '
 
