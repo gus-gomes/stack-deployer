@@ -9,7 +9,7 @@
 - name: k3s | Install K3s
   become: true
   shell:
-    cmd: "INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_EXEC='server' ./install.sh"
+    cmd: "INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_EXEC='server' K3S_KUBECONFIG_MODE='644' ./install.sh"
     chdir: "{{ local_bundle_dir }}"
   ignore_errors: true
   async: 600
@@ -37,8 +37,8 @@
     remote_src: true
     mode: 0644
 
-- name: k3s | Restart service
-  become: true
-  ansible.builtin.service:
-    name: k3s
-    state: restarted
+#- name: k3s | Restart service
+#  become: true
+#  ansible.builtin.service:
+#    name: k3s
+#    state: restarted

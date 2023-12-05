@@ -17,7 +17,5 @@ spec:
   targetNamespace: monitoring
   valuesContent: |-
     grafana:
-      ingress:
-        enabled: true
-        hosts:
-          - grafana.{{ domain }}
+      service:
+        type: NodePort
