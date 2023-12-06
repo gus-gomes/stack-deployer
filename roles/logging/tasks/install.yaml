@@ -5,6 +5,12 @@
     src: "../files/logging-operator-{{ logging_version }}.tgz"
     dest: "{{ k3s_charts_dir }}"
 
+- name: Logging | Generate logging issuer
+  become: true
+  ansible.builtin.template:
+    src: logging-issuer.yaml.j2
+    dest: "{{ k3s_manifests_dir }}/logging-issuer.yaml"
+
 - name: Elastic | Copy elastic charts to k3s charts dir
   become: true
   ansible.builtin.copy:
