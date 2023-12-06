@@ -10,6 +10,7 @@ opni_version: "v0.12.1"
 monitoring_version: "55.0.0"
 logging_version: "3.17.10"
 elastic_version: "8.5.1"
+kibana_version: "8.5.1"
 
 # Private variables
 bundle_name: "stack-deployer"

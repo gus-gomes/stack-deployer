@@ -27,5 +27,20 @@ spec:
   version: "{{ elastic_version }}"
   valuesContent: |-
     replicas: 1
+    minimumMasterNodes: 1
+    secret:
+      password: "elastic"
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: kibana
+  namespace: logging
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/kibana-{{ kibana_version }}.tgz 
+  targetNamespace: logging
+  version: "{{ kibana_version }}"
+  valuesContent: |-
     service:
       type: NodePort
+    elasticsearchHosts: "https://elastic:elastic@192.168.1.231:9200"
