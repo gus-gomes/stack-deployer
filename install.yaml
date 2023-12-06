@@ -36,7 +36,7 @@
             - always
           with_nested:
             - ["install", "post-install"]
-            - ["cert-manager","opni", "monitoring"]
+            - ["cert-manager","opni", "monitoring", "logging"]
       rescue:
         - name: Installation errors
           ansible.builtin.fail:

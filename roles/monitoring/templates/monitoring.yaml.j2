@@ -12,8 +12,8 @@ metadata:
   name: monitoring
   namespace: monitoring 
 spec:
-  chart: https://%{KUBERNETES_API}%/static/charts/kube-prometheus-stack-{{ monitoring }}.tgz 
-  version: "{{ monitoring }}"
+  chart: https://%{KUBERNETES_API}%/static/charts/kube-prometheus-stack-{{ monitoring_version }}.tgz 
+  version: "{{ monitoring_version }}"
   targetNamespace: monitoring
   valuesContent: |-
     grafana:

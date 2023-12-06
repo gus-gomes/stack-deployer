@@ -12,10 +12,20 @@ metadata:
   name: logging
   namespace: logging 
 spec:
-  chart: https://%{KUBERNETES_API}%/static/charts/logging-operator-{{ logging }}.tar 
-  version: "{{ logging }}"
+  chart: https://%{KUBERNETES_API}%/static/charts/logging-operator-{{ logging_version }}.tgz 
+  version: "{{ logging_version }}"
   targetNamespace: logging
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: elastic
+  namespace: logging
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/elasticsearch-{{ elastic_version }}.tgz 
+  targetNamespace: logging
+  version: "{{ elastic_version }}"
   valuesContent: |-
-    grafana:
-      service:
-        type: NodePort
+    replicas: 1
+    service:
+      type: NodePort
