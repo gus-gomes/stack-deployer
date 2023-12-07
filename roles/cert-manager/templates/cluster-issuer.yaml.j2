@@ -1,8 +1,8 @@
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
-  name: logging-issuer
+  name: issuer
   namespace: logging
 spec:
   selfSigned: {}
@@ -13,9 +13,9 @@ metadata:
   name: ca-key-pair
   namespace: logging
 spec:
-  commonName: datahub
+  commonName: dev
   isCA: true
   issuerRef:
-    kind: Issuer
-    name: logging-issuer
+    kind: ClusterIssuer
+    name: issuer
   secretName: ca-key-pair
