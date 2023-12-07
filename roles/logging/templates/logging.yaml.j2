@@ -100,6 +100,8 @@ spec:
       - name: elastic-certificates
         secretName: ca-key-pair
         path: /usr/share/elasticsearch/config/certs
+    ## TODO 
+    ## remove setting env [cluster.initial_master_nodes] 
 ---
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
