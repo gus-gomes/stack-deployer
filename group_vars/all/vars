@@ -8,7 +8,7 @@ k9s_version: "v0.28.2"
 cert_manager_version: "v1.13.2"
 opni_version: "v0.12.1"
 monitoring_version: "55.0.0"
-logging_version: "3.17.10"
+rancher_logging_version: "102.0.1+up3.17.10"
 elastic_version: "8.5.1"
 kibana_version: "8.5.1"
 
