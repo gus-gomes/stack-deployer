@@ -9,6 +9,15 @@ metadata:
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
+  name: rancher-logging-crd
+  namespace: cattle-logging-system
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/rancher-logging-crd-{{ rancher_logging_version }}.tgz 
+  targetNamespace: cattle-logging-system
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
   name: rancher-logging
   namespace: cattle-logging-system
 spec:
