@@ -2,7 +2,7 @@
 - name: Generate Inventory
   hosts: localhost
   vars:
-    config_dir: "{{ lookup('ansible.builtin.env', 'INVENTORY_DIR') }}"
+    config_dir: "{{ lookup('ansible.builtin.env', 'INVENTORY') }}"
   tasks:
   - name: Ensure Inventory Dir exists
     ansible.builtin.file:

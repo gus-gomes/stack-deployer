@@ -20,7 +20,7 @@ ANS_COMMAND_LINE=${ANSIBLE_PLAYBOOK_TOOL} \
 	-i ${INVENTORY}/hosts.yaml \
 	-e @${INVENTORY}/globals.yaml
 
-bundle-stack:
+bundle:
 	$(ANS_COMMAND_LINE) bundle.yaml $(OPTS)
 
 install:
@@ -32,6 +32,7 @@ uninstall:
 ## Generate inventory
 
 generate-inventory:
+	@echo 'admin' -> ~/.vault
 	$(ANSIBLE_PLAYBOOK_TOOL) generate-inventory.yaml $(OPTS)
 	@echo #######################################################################################
 	@echo
