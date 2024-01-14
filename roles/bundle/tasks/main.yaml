@@ -13,7 +13,7 @@
 
 - name: k3s | Get K9s
   ansible.builtin.get_url:
-    url: "{{ k9s_url }}"
+    url: "{{ k9s_url[arch] }}"
     dest: "{{ local_bundle_dir }}/k9s_Linux.tar.gz"
     mode: "0664"
 

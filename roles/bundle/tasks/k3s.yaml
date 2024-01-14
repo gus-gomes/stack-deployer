@@ -1,13 +1,13 @@
 ---
 - name: k3s | Download k3s binary
   ansible.builtin.get_url:
-    url: "{{ k3s_binary_url }}"
+    url: "{{ k3s_binary_url[arch] }}"
     dest: "{{ local_bundle_dir }}/k3s"
     mode: "+x"
 
 - name: k3s | Download k3s images
   ansible.builtin.get_url:
-    url: "{{ k3s_airgap_images_url }}"
+    url: "{{ k3s_airgap_images_url[arch] }}"
     dest: "{{ local_bundle_dir }}/k3s-airgap-images.tar.gz"
     mode: "0644"
 

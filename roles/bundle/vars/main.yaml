@@ -5,8 +5,12 @@
 #########
 ## K3s ##
 #########
-k3s_binary_url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s"
-k3s_airgap_images_url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-airgap-images-amd64.tar.gz"
+k3s_binary_url:
+  arm64: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-arm64"
+  amd64: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s"
+k3s_airgap_images_url:
+  arm64: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-airgap-images-arm64.tar.gz"
+  amd64: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-airgap-images-amd64.tar.gz"
 k3s_install_script: "https://get.k3s.io"
 
 ##################
@@ -17,4 +21,6 @@ cert_manager_crds_url: "https://github.com/jetstack/cert-manager/releases/downlo
 #########
 ## k9s ##
 #########
-k9s_url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
+k9s_url: 
+  amd64: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
+  arm64: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_arm64.tar.gz"

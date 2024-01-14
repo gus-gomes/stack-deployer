@@ -1,8 +1,0 @@
----
-- name: Opni | Wait for availability
-  kubernetes.core.k8s_info:
-    kind: Pods
-    namespace: opni
-    wait: true
-    wait_sleep: 10
-    wait_timeout: 60
