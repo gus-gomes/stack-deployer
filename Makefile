@@ -1,10 +1,5 @@
-ifndef INV
-$(info no environment variable INV defined)
-$(info setting by default /home/ubuntu/platform-config)
+$(info Setting by default INV=/home/ubuntu/platform-config)
 export INV="/home/ubuntu/platform-config"
-else
-$(info # using inventory ${INV})
-endif
 
 # default vault password file
 export ANSIBLE_VAULT_PASSWORD_FILE?=~/.vault
@@ -30,6 +25,9 @@ install:
 
 uninstall:
 	$(ANS_COMMAND_LINE) uninstall.yaml $(OPTS)
+
+security-assessment:
+	$(ANS_COMMAND_LINE) k8s-sec-assessment/sec-assessment.yaml $(OPTS)
 
 ## Generate inventory
 

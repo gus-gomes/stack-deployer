@@ -1,5 +1,6 @@
 ---
-- name: Setup pre-requisites
+- name: Bundle stack-deployer
   hosts: localhost
   roles:
+    - { role: k8s-sec-assessment/roles/bundle }
     - bundle

@@ -10,6 +10,8 @@ monitoring_version: "55.0.0"
 rancher_logging_version: "102.0.1+up3.17.10"
 elastic_version: "8.5.1"
 kibana_version: "8.5.1"
+trivy_version: "0.48.3"
+cyclonedx_version: "v0.25.0"
 
 # Arch type
 arch: arm64
