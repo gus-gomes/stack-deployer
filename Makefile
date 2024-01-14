@@ -27,7 +27,7 @@ uninstall:
 	$(ANS_COMMAND_LINE) uninstall.yaml $(OPTS)
 
 security-assessment:
-	$(ANS_COMMAND_LINE) k8s-sec-assessment/sec-assessment.yaml $(OPTS)
+	$(ANS_COMMAND_LINE) sec-assessment.yaml $(OPTS)
 
 ## Generate inventory
 
