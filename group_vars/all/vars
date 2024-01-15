@@ -13,10 +13,6 @@ kibana_version: "8.5.1"
 trivy_version: "0.48.3"
 cyclonedx_version: "v0.25.0"
 
-# Arch type
-arch: arm64
-# amd64 or arm64
-
 # Private variables
 bundle_name: "stack-deployer"
 local_bundle_dir: "{{ playbook_dir }}/bundles/{{ bundle_name }}"

@@ -1,3 +1,6 @@
 enable_cert_manager: false
 enable_monitoring: false
 enable_logging: false
+
+arch: arm64
+#arm64 or amd64
