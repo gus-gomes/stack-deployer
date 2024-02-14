@@ -1,0 +1,4 @@
+---
+- include_tasks: "{{ role_action }}.yaml"
+  when:
+    - enable_redis

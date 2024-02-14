@@ -1,0 +1,7 @@
+---
+- name: Redis | Download Redis bitnami chart
+  ansible.builtin.get_url:
+    url: "{{ redis_chart_url }}"
+    dest: "{{ local_bundle_dir }}/redis-{{ redis_version }}.tgz"
+    mode: "+x"
+    validate_certs: false

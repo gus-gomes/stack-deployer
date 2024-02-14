@@ -1,0 +1,8 @@
+---
+- name: Redis | Wait for availability
+  kubernetes.core.k8s_info:
+    kind: Pods
+    namespace: redis
+    wait: true
+    wait_sleep: 10
+    wait_timeout: 60
