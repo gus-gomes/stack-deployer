@@ -2,5 +2,5 @@
 - name: Bundle stack-deployer
   hosts: localhost
   roles:
-    - { role: k8s-sec-assessment/roles/bundle }
+    - { role: k8s-sec-assessment/roles/bundle, when: security_assessment }
     - bundle

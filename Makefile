@@ -29,6 +29,12 @@ uninstall:
 security-assessment:
 	$(ANS_COMMAND_LINE) sec-assessment.yaml $(OPTS)
 
+ping:
+	ansible -i ${INVENTORY}/hosts.yaml -m ping all
+
+remote-cmd: 
+	ansible -i ${INVENTORY}/hosts.yaml all -m shell -a "$(OPTS)"
+
 ## Generate inventory
 
 generate-inventory:
