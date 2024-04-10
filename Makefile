@@ -1,5 +1,5 @@
 $(info Setting by default INVENTORY=/home/ubuntu/platform-config)
-export INVENTORY="/home/ubuntu/platform-config"
+export INVENTORY=/home/ubuntu/platform-config
 
 # default vault password file
 export ANSIBLE_VAULT_PASSWORD_FILE?=~/.vault

@@ -16,8 +16,8 @@
       force: false
       follow: true
     with_items:
-    - hosts.yaml
-    - globals.yaml
+      - hosts.yaml
+      - globals.yaml
 
   - name: Check if secrets file exists
     ansible.builtin.stat:
