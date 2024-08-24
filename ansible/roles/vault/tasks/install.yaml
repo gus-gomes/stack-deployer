@@ -15,21 +15,15 @@
     state: present
     kubeconfig: ~/.kube/config
 
-- name: Wait for Vault pods to be ready
+- name: Wait for Vault pod to be in Running status
   kubernetes.core.k8s_info:
+    kubeconfig: ~/.kube/config
+    api_version: v1
     kind: Pod
     namespace: vault
-    label_selectors:
-      - app.kubernetes.io/name=vault
-  register: vault_pod
-
-- name: Wait for Vault pod to be in Running status
-  ansible.builtin.wait_for:
-    timeout: 10
-    delay: 5
-    state: started
-    msg: "Vault pod is not in Running status"
-  until: vault_pod.resources[0].status.phase == "Running"
+  register: vault_pod 
+  until: vault_pod | json_query('resources[*].status.phase')|unique == ["Running"]
+  retries: 10
 
 - name: Create NodePort service for Vault
   kubernetes.core.k8s:
@@ -39,7 +33,7 @@
       kind: Service
       metadata:
         name: vault-nodeport
-        namespace: default
+        namespace: vault
       spec:
         type: NodePort
         selector:

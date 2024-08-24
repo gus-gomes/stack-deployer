@@ -1,18 +1,39 @@
 ---
-- name: Initialize Vault
-  command: "vault operator init -key-shares=1 -key-threshold=1"
-  register: vault_init
-  environment:
-    VAULT_ADDR: "http://{{ ansible_default_ipv4.address }}:30080"
+- name: Check Vault status
+  kubernetes.core.k8s_exec:
+    namespace: vault
+    pod: vault-0
+    command: vault status -format json
+  register: vault_status
+  ignore_errors: true
 
-- name: Save Vault keys
-  copy:
-    content: "{{ vault_init.stdout }}"
-    dest: /tmp/vault_keys.txt
-  when: vault_init.changed
+
+- name: Initialize Vault
+  kubernetes.core.k8s_exec:
+    namespace: vault
+    pod: vault-0
+    command: vault operator init -key-shares=1 -key-threshold=1 -format json
+  register: vault_init
+  when: 
+    - vault_status.stdout | from_json | json_query('sealed') == true
+    - vault_status.stdout | from_json | json_query('initialized') == false
+
+- name: Create Kubernetes secret manifest
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: vault-keys
+        namespace: vault
+      data:
+        unseal-key: "{{ vault_init.stdout | from_json | json_query('unseal_keys_b64') | b64encode }}"
+        root-token: "{{ vault_init.stdout | from_json | json_query('root_token') | b64encode }}"
 
 - name: Unseal Vault
-  command: "vault operator unseal {{ item }}"
-  with_items: "{{ vault_init.stdout_lines | select('search', 'Unseal Key') | map('regex_replace', 'Unseal Key \\d+: (.+)', '\\1') | list }}"
-  environment:
-    VAULT_ADDR: "http://{{ ansible_default_ipv4.address }}:30080"
+  kubernetes.core.k8s_exec:
+    namespace: vault
+    pod: vault-0
+    command: "vault operator unseal {{ vault_init.stdout | from_json | json_query('unseal_keys_b64') }}"
+  when: vault_status.stdout | from_json | json_query('sealed') == true
