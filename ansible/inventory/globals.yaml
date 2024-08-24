@@ -1,6 +1,5 @@
 enable_cert_manager: false
 enable_monitoring: false
-enable_logging: false
 enable_redis: false
 security_assessment: false
 

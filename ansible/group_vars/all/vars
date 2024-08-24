@@ -7,9 +7,6 @@ k3s_version: "v1.26.10%2Bk3s1"
 k9s_version: "v0.31.8"
 cert_manager_version: "v1.13.2"
 monitoring_version: "55.0.0"
-rancher_logging_version: "102.0.1+up3.17.10"
-elastic_version: "8.5.1"
-kibana_version: "8.5.1"
 redis_version: "18.13.0"
 
 #############
