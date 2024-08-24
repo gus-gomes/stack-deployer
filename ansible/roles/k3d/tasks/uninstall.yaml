@@ -1,0 +1,11 @@
+- name: Uninstall k3d
+  become: yes
+  block:
+    - name: Delete all k3d clusters
+      command: k3d cluster delete --all
+      ignore_errors: yes
+
+    - name: Remove k3d binary
+      file:
+        path: /usr/local/bin/k3d
+        state: absent

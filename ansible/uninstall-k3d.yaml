@@ -1,0 +1,12 @@
+---
+- name: Uninstall k3d cluster 
+  hosts: localhost
+  tasks:
+    - name: k3d | Install
+      vars:
+        role_action: "uninstall"
+      include_role:
+        name: k3d
+        apply:
+          tags:
+            - k3d
