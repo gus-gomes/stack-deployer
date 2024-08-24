@@ -1,0 +1,12 @@
+- name: Uninstall Vault using Helm
+  kubernetes.core.helm:
+    name: vault
+    namespace: vault
+    state: absent
+    wait: true
+
+- name: Delete Vault PVCs
+  command: kubectl delete pvc -l app.kubernetes.io/name=vault -n vault
+
+- name: Delete Vault namespace
+  command: kubectl delete namespace vault

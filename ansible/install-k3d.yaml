@@ -1,5 +1,5 @@
 ---
-- name: Install k3d cluster 
+- name: Install k3d cluster and tools
   hosts: localhost
   tasks:
     - name: k3d | Install
@@ -10,3 +10,18 @@
         apply:
           tags:
             - k3d
+      tags:
+        - always
+
+    - name: Vault | Install
+      vars:
+        role_action: "{{ item }}"
+      include_role:
+        name: vault
+        apply:
+          tags:
+            - vault
+      tags:
+        - always
+      with_items:
+        - ["install", "bootstrap"]

@@ -36,10 +36,10 @@ remote-cmd:
 	ansible -i ${INVENTORY}/hosts.yaml all -m shell -a "$(OPTS)"
 
 install-k3d:
-	ansible-playbook install-k3d.yaml
+	ansible-playbook install-k3d.yaml $(OPTS)
 
 uninstall-k3d:
-	ansible-playbook uninstall-k3d.yaml
+	ansible-playbook uninstall-k3d.yaml $(OPTS)
 
 ## Generate inventory
 

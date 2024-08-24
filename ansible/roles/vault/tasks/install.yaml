@@ -1,0 +1,53 @@
+---
+- name: Apply Vault Helm chart
+  kubernetes.core.helm:
+    name: vault
+    chart_ref: hashicorp/vault
+    release_namespace: vault
+    create_namespace: true
+    values:
+      server:
+        dataStorage:
+          enabled: true
+          storageClass: local-path
+        affinity: {}
+        tolerations: []
+    state: present
+    kubeconfig: ~/.kube/config
+
+- name: Wait for Vault pods to be ready
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: vault
+    label_selectors:
+      - app.kubernetes.io/name=vault
+  register: vault_pod
+
+- name: Wait for Vault pod to be in Running status
+  ansible.builtin.wait_for:
+    timeout: 10
+    delay: 5
+    state: started
+    msg: "Vault pod is not in Running status"
+  until: vault_pod.resources[0].status.phase == "Running"
+  retries: 30
+  delay: 5
+
+- name: Create NodePort service for Vault
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: vault-nodeport
+        namespace: default
+      spec:
+        type: NodePort
+        selector:
+          app: vault
+        ports:
+          - protocol: TCP
+            port: 8200
+            targetPort: 8200
+            nodePort: 30080
