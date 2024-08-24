@@ -30,8 +30,6 @@
     state: started
     msg: "Vault pod is not in Running status"
   until: vault_pod.resources[0].status.phase == "Running"
-  retries: 30
-  delay: 5
 
 - name: Create NodePort service for Vault
   kubernetes.core.k8s:
