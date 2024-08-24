@@ -16,11 +16,15 @@
     - name: Create k3d cluster
       command: k3d cluster create infra-cluster --kubeconfig-update-default
 
-    - name: Merge kubeconfig
-      command: k3d kubeconfig merge infra-cluster --kubeconfig-merge-default
-    
-    - name: Ensure kubeconfig is updated
-      command: export KUBECONFIG=$(k3d kubeconfig write infra-cluster)
+    - name: Create kubeconfig
+      command: k3d kubeconfig write infra-cluster --output {{ ansible_env.HOME }}/.kube/config
+
+    - name: Set permissions on /path/to/file
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.kube/config"
+        mode: '0644'
+        owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
+        group: "{{ lookup('ansible.builtin.env', 'USER') }}"
 
     - name: Install kubectl using snap
       community.general.snap:
