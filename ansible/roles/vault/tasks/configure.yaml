@@ -27,11 +27,16 @@
         pod: vault-0
         command: vault write /transit/keys/git-safe -type=rsa-4096
 
+    - name: Read HCL file
+      slurp:
+        src: "{{ playbook_dir }}/roles/vault/files/config.hcl"
+      register: hcl_file
+
     - name: Write policy
       kubernetes.core.k8s_exec:
         namespace: vault
         pod: vault-0
-        command: vault policy write transit-policy ../files/config.hcl
+        command: vault policy write transit-policy {{ hcl_file.content | b64decode }}
 
     - name: Vault enable approle
       kubernetes.core.k8s_exec:
