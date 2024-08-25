@@ -28,8 +28,8 @@
             name: vault-keys
             namespace: vault
           data:
-            unseal-key: "{{ vault_init.stdout | from_json | json_query('unseal_keys_b64') | join('') | b64encode }}"
-            root-token: "{{ vault_init.stdout | from_json | json_query('root_token') | b64encode }}"
+            unseal_key: "{{ vault_init.stdout | from_json | json_query('unseal_keys_b64') | join('') | b64encode }}"
+            token: "{{ vault_init.stdout | from_json | json_query('root_token') | b64encode }}"
 
     - name: Unseal Vault
       kubernetes.core.k8s_exec:

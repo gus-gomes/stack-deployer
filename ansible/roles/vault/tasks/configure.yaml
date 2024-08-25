@@ -1,6 +1,20 @@
 ---
 - name: Configure Vault
   block:
+    - name: Get secret from Kubernetes
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: vault-keys
+        namespace: vault
+      register: secret_output
+
+    - name: Vault login
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault login {{ secret_output.resources[0].data.token | b64decode }}
+
     - name: Vault enable secrets transit
       kubernetes.core.k8s_exec:
         namespace: vault
