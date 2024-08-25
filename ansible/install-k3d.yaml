@@ -24,4 +24,4 @@
       tags:
         - always
       with_items:
-        - ["install", "bootstrap"]
+        - ["install", "bootstrap", "configure"]

@@ -1,0 +1,48 @@
+---
+- name: Configure Vault
+  block:
+    - name: Vault enable secrets transit
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault secrets enable transit
+
+    - name: Write config
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault write /transit/keys/git-safe -type=rsa-4096
+
+    - name: Write policy
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault policy write transit-policy ../files/config.hcl
+
+    - name: Vault enable approle
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault enable approle
+
+    - name: Write approle config
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault write auth/approle/role/git-secrets token_ttl=5m token_max_ttl=10m token_type=default policies=”transit-policy”
+
+    - name: Read approle config
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault read /auth/approle/role/git-secrets/role-id
+      register: role-id
+
+    - name: Vault write secret-id
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: vault write -force /auth/approle/role/git-secrets/secret-id
+      register: secret-id
+  tags:
+    - configure

@@ -9,31 +9,31 @@
 
 
 - name: Initialize Vault
-  kubernetes.core.k8s_exec:
-    namespace: vault
-    pod: vault-0
-    command: vault operator init -key-shares=1 -key-threshold=1 -format json
-  register: vault_init
-  when: 
-    - vault_status.stdout | from_json | json_query('sealed') == true
-    - vault_status.stdout | from_json | json_query('initialized') == false
-
-- name: Create Kubernetes secret manifest
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: vault-keys
+  block:
+    - name: Initialize Vault
+      kubernetes.core.k8s_exec:
         namespace: vault
-      data:
-        unseal-key: "{{ vault_init.stdout | from_json | json_query('unseal_keys_b64') | b64encode }}"
-        root-token: "{{ vault_init.stdout | from_json | json_query('root_token') | b64encode }}"
+        pod: vault-0
+        command: vault operator init -key-shares=1 -key-threshold=1 -format json
+      register: vault_init
+      when: vault_status.stdout | from_json | json_query('initialized') == false
 
-- name: Unseal Vault
-  kubernetes.core.k8s_exec:
-    namespace: vault
-    pod: vault-0
-    command: "vault operator unseal {{ vault_init.stdout | from_json | json_query('unseal_keys_b64') }}"
+    - name: Create Kubernetes secret manifest
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: vault-keys
+            namespace: vault
+          data:
+            unseal-key: "{{ vault_init.stdout | from_json | json_query('unseal_keys_b64') | join('') | b64encode }}"
+            root-token: "{{ vault_init.stdout | from_json | json_query('root_token') | b64encode }}"
+
+    - name: Unseal Vault
+      kubernetes.core.k8s_exec:
+        namespace: vault
+        pod: vault-0
+        command: "vault operator unseal {{ vault_init.stdout | from_json | json_query('unseal_keys_b64') | join('') }}"
   when: vault_status.stdout | from_json | json_query('sealed') == true
