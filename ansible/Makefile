@@ -26,6 +26,12 @@ install:
 uninstall:
 	$(ANS_COMMAND_LINE) uninstall.yaml $(OPTS)
 
+install-%:
+	$(ANS_COMMAND_LINE) install.yaml --tags='$(subst install-,,$@)' $(OPTS)
+
+uninstall-%:
+	$(ANS_COMMAND_LINE) uninstall.yaml --tags='$(subst uninstall-,,$@)' $(OPTS)
+
 security-assessment:
 	$(ANS_COMMAND_LINE) sec-assessment.yaml $(OPTS)
 
@@ -40,6 +46,12 @@ install-k3d:
 
 uninstall-k3d:
 	ansible-playbook uninstall-k3d.yaml $(OPTS)
+
+install-k3d-%:
+	ansible-playbook install-k3d.yaml --tags='$(subst install-k3d-,,$@)' $(OPTS)
+
+uninstall-k3d-%:
+	ansible-playbook uninstall-k3d.yaml --tags='$(subst uninstall-k3d-,,$@)' $(OPTS)
 
 ## Generate inventory
 
