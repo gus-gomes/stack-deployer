@@ -1,4 +1,4 @@
 ---
 - include_tasks: "{{ role_action }}.yaml"
   when: 
-    - enable_home_assitant
+    - enable_home_assistant

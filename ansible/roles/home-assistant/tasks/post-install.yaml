@@ -1,0 +1,8 @@
+---
+- name: Home Assistant | Wait for availability
+  kubernetes.core.k8s_info:
+    kind: Pods
+    namespace: home-assistant
+    wait: true
+    wait_sleep: 10
+    wait_timeout: 60
