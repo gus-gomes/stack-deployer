@@ -4,7 +4,7 @@
 ## Versions ##
 ##############
 k3s_version: "v1.26.10%2Bk3s1"
-k9s_version: "v0.31.8"
+k9s_version: "v0.32.5"
 cert_manager_version: "v1.13.2"
 monitoring_version: "55.0.0"
 redis_version: "18.13.0"
