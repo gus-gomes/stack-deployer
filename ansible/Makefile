@@ -41,6 +41,9 @@ ping:
 remote-cmd: 
 	ansible -i ${INVENTORY}/hosts.yaml all -m shell -a "$(OPTS)"
 
+copy-keys:
+	ansible -i ${INVENTORY}/hosts.yaml exchange-ssh-keys.yaml
+
 install-k3d:
 	ansible-playbook install-k3d.yaml $(OPTS)
 
