@@ -10,7 +10,7 @@
   become: true
   shell:
     cmd: "INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_EXEC='server' K3S_KUBECONFIG_MODE='644' ./install.sh"
-    chdir: "{{ local_bundle_dir }}"
+    chdir: "/etc/rancher/k3s/"
   ignore_errors: true
   async: 600
   poll: 5
