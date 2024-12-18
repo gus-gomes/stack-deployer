@@ -1,3 +1,4 @@
 ansible/bundles/*
 .vscode/
 sbom/*
+terraform/secrets.auto.tfvars
