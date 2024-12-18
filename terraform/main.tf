@@ -30,9 +30,6 @@ resource "proxmox_lxc" "lxc_container" {
     ip     = "dhcp"
   }
 
-  ssh_public_keys = <<-EOT
-  EOT
-
 }
 
 resource "null_resource" "fetch_ips" {
