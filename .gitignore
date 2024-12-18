@@ -1,6 +1,7 @@
 ansible/bundles/*
 .vscode/
 sbom/*
+terraform/*.txt
 terraform/secrets.auto.tfvars
 # Local .terraform directories
 **/.terraform/*
