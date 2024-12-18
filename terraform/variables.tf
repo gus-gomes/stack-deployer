@@ -52,3 +52,9 @@ variable "proxmox_host" {
   description = "The Proxmox host IP or hostname"
   type        = string
 }
+
+variable "ssh_public_key" {
+  description = "The public SSH key for accessing resources"
+  type        = string
+  sensitive   = true
+}
