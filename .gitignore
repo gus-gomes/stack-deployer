@@ -17,4 +17,5 @@ override.tf.json
 .terraform.tfstate.lock.info
 .terraformrc
 terraform.rc
+.terraform.lock.hcl
 .DS_Store  # macOS specific file
