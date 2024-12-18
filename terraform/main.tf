@@ -71,13 +71,15 @@ data "local_file" "container_ips" {
 }
 
 resource "local_file" "hosts_yaml" {
-  filename = "hosts.yaml"
+  filename = "../hosts.yaml"
   content = yamlencode({
     all = {
       hosts = {
         for idx, ip_file in data.local_file.container_ips :
         "lxc-container-${idx + 1}" => {
           ansible_host = chomp(ip_file.content)
+          ansible_connection: "ssh"
+          ansible_user: "root"
         }
       }
     }
