@@ -2,4 +2,19 @@ ansible/bundles/*
 .vscode/
 sbom/*
 terraform/secrets.auto.tfvars
-terraform/.terraform
+# Local .terraform directories
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.tfstate.lock.info
+.terraformrc
+terraform.rc
+.DS_Store  # macOS specific file
