@@ -14,12 +14,14 @@ resource "proxmox_lxc" "lxc_container" {
   password    = var.container_password
   unprivileged = true
   start       = true
+  onboot      = true
 
   cores  = var.cores
   memory = var.memory
   swap   = 1024
   
-  ssh_public_keys = [var.ssh_public_key]
+  ssh_public_keys = var.ssh_public_key
+  
   rootfs {
     storage = var.rootfs_storage
     size    = var.rootfs_size
