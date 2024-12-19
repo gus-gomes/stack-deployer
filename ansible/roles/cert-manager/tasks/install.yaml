@@ -4,9 +4,3 @@
   ansible.builtin.template:
     src: "../templates/cert-manager.yaml.j2"
     dest: "{{ k3s_manifests_dir }}/cert-manager.yaml"
-
-- name: Cert-manager | Generate cluster issuer
-  become: true
-  ansible.builtin.template:
-    src: cluster-issuer.yaml.j2
-    dest: "{{ k3s_manifests_dir }}/cluster-issuer.yaml"
