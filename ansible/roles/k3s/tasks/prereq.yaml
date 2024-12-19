@@ -81,3 +81,19 @@
     src: "{{ local_bundle_manifests_dir }}/"
     dest: "{{ k3s_manifests_dir }}"
     mode: "0644"
+
+- name: Create symlink for /dev/kmsg
+  ansible.builtin.file:
+    src: /dev/console
+    dest: /dev/kmsg
+    state: link
+    force: yes
+
+- name: Set kernel parameters
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    - { name: 'vm.overcommit_memory', value: '1' }
+    - { name: 'kernel.panic', value: '10' }
