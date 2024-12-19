@@ -18,7 +18,8 @@ resource "proxmox_lxc" "lxc_container" {
   cores  = var.cores
   memory = var.memory
   swap   = 1024
-
+  
+  ssh_public_keys = [var.ssh_public_key]
   rootfs {
     storage = var.rootfs_storage
     size    = var.rootfs_size
@@ -73,7 +74,7 @@ data "local_file" "container_ips" {
 resource "local_file" "hosts_yaml" {
   filename = "../hosts.yaml"
   content = yamlencode({
-    all = {
+    controllers = {
       hosts = {
         for idx, ip_file in data.local_file.container_ips :
         "lxc-container-${idx + 1}" => {
