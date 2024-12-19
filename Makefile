@@ -49,18 +49,6 @@ remote-cmd:
 copy-keys:
 	ansible-playbook -i ${INVENTORY}/hosts.yaml ${ANS_DIR}/exchange-ssh-keys.yaml
 
-install-k3d:
-	ansible-playbook ${ANS_DIR}/install-k3d.yaml $(OPTS)
-
-uninstall-k3d:
-	ansible-playbook ${ANS_DIR}/uninstall-k3d.yaml $(OPTS)
-
-install-k3d-%:
-	ansible-playbook ${ANS_DIR}/install-k3d.yaml --tags='$(subst install-k3d-,,$@)' $(OPTS)
-
-uninstall-k3d-%:
-	ansible-playbook ${ANS_DIR}/uninstall-k3d.yaml --tags='$(subst uninstall-k3d-,,$@)' $(OPTS)
-
 ## Generate inventory
 
 generate-inventory:

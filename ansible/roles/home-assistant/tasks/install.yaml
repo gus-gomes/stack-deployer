@@ -1,6 +1,0 @@
----
-- name: Home Assitant | Copy manifests to k3s dir
-  become: true
-  ansible.builtin.template:
-    src: "../templates/home-assistant.yaml.j2"
-    dest: "{{ k3s_manifests_dir }}/home-assistant.yaml"
