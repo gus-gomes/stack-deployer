@@ -1,7 +1,7 @@
 enable_cert_manager: false
 enable_monitoring: false
 enable_redis: false
-security_assessment: false
+enable_vault: false
 
 arch: amd64
 #arm64 or amd64

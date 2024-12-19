@@ -9,10 +9,6 @@ cert_manager_version: "v1.13.2"
 monitoring_version: "55.0.0"
 redis_version: "18.13.0"
 
-#############
-trivy_version: "0.48.3"
-cyclonedx_version: "v0.25.0"
-
 # Private variables
 bundle_name: "stack-deployer"
 local_bundle_dir: "{{ playbook_dir }}/bundles/{{ bundle_name }}"

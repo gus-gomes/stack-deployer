@@ -37,9 +37,6 @@ install-%:
 uninstall-%:
 	$(ANS_COMMAND_LINE) ${ANS_DIR}/uninstall.yaml --tags='$(subst uninstall-,,$@)' $(OPTS)
 
-security-assessment:
-	$(ANS_COMMAND_LINE) ${ANS_DIR}/sec-assessment.yaml $(OPTS)
-
 ping:
 	ansible -i ${INVENTORY}/hosts.yaml -m ping all
 
@@ -47,7 +44,7 @@ remote-cmd:
 	ansible -i ${INVENTORY}/hosts.yaml all -m shell -a "$(OPTS)"
 
 copy-keys:
-	ansible-playbook -i ${INVENTORY}/hosts.yaml ${ANS_DIR}/exchange-ssh-keys.yaml
+	ansible-playbook -i ${INVENTORY}/hosts.yaml ${ANS_DIR}/copy-ssh-keys.yaml
 
 ## Generate inventory
 
@@ -78,4 +75,4 @@ apply:
 destroy:
 	cd $(TF_DIR) && terraform destroy -auto-approve
 
-.PHONY: init plan apply destroy bundle install uninstall security-assessment ping remote-cmd copy-keys generate-inventory
+.PHONY: init plan apply destroy bundle install uninstall ping remote-cmd copy-keys generate-inventory

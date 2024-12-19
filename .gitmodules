@@ -1,3 +1,0 @@
-[submodule "k8s-sec-assessment"]
-	path = k8s-sec-assessment
-	url = https://github.com/gus-gomes/k8s-sec-assessment
