@@ -79,7 +79,7 @@ resource "local_file" "hosts_yaml" {
     controllers = {
       hosts = {
         for idx, ip_file in data.local_file.container_ips :
-        "lxc-container-${idx + 1}" => {
+        "ubuntu-lxc--${idx + 1}" => {
           ansible_host = chomp(ip_file.content)
           ansible_connection: "ssh"
           ansible_user: "root"
