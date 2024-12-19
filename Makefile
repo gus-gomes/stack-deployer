@@ -18,24 +18,22 @@ OPTS?=
 ANSIBLE_PLAYBOOK_TOOL?=ansible-playbook
 ANS_COMMAND_LINE=${ANSIBLE_PLAYBOOK_TOOL} \
 	-i ${INVENTORY}/hosts.yaml \
-	-e @${INVENTORY}/globals.yaml
-
-ANS_DIR = ./ansible 
+	-e @${INVENTORY}/globals.yaml 
 
 bundle:
-	$(ANS_COMMAND_LINE) ${ANS_DIR}/bundle.yaml $(OPTS)
+	$(ANS_COMMAND_LINE) ansible/bundle.yaml $(OPTS)
 
 install:
-	$(ANS_COMMAND_LINE) ${ANS_DIR}/install.yaml $(OPTS)
+	$(ANS_COMMAND_LINE) ansible/install.yaml $(OPTS)
 
 uninstall:
-	$(ANS_COMMAND_LINE) ${ANS_DIR}/uninstall.yaml $(OPTS)
+	$(ANS_COMMAND_LINE) ansible/uninstall.yaml $(OPTS)
 
 install-%:
-	$(ANS_COMMAND_LINE) ${ANS_DIR}/install.yaml --tags='$(subst install-,,$@)' $(OPTS)
+	$(ANS_COMMAND_LINE) ansible/install.yaml --tags='$(subst install-,,$@)' $(OPTS)
 
 uninstall-%:
-	$(ANS_COMMAND_LINE) ${ANS_DIR}/uninstall.yaml --tags='$(subst uninstall-,,$@)' $(OPTS)
+	$(ANS_COMMAND_LINE) ansible/uninstall.yaml --tags='$(subst uninstall-,,$@)' $(OPTS)
 
 ping:
 	ansible -i ${INVENTORY}/hosts.yaml -m ping all
@@ -44,7 +42,7 @@ remote-cmd:
 	ansible -i ${INVENTORY}/hosts.yaml all -m shell -a "$(OPTS)"
 
 copy-keys:
-	ansible-playbook -i ${INVENTORY}/hosts.yaml ${ANS_DIR}/copy-ssh-keys.yaml
+	ansible-playbook -i ${INVENTORY}/hosts.yaml ansible/copy-ssh-keys.yaml
 
 ## Generate inventory
 
@@ -61,7 +59,7 @@ generate-inventory:
 
 ## Terraform code
 # Variables
-TF_DIR = ./terraform  # Directory containing your Terraform configuration
+TF_DIR=./terraform  # Directory containing your Terraform configuration
 # Initialize Terraform
 init:
 	cd $(TF_DIR) && terraform init
