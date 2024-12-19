@@ -78,4 +78,4 @@ apply:
 destroy:
 	cd $(TF_DIR) && terraform destroy -auto-approve
 
-.PHONY: init plan apply destroy bundle install uninstall security-assessment ping remote-cmd copy-keys install-k3d uninstall-k3d generate-inventory
+.PHONY: init plan apply destroy bundle install uninstall security-assessment ping remote-cmd copy-keys generate-inventory
