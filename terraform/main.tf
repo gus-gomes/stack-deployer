@@ -12,7 +12,7 @@ resource "proxmox_lxc" "lxc_container" {
   hostname    = "ubuntu-lxc-${count.index + 1}"
   ostemplate  = var.ostemplate
   password    = var.container_password
-  unprivileged = true
+  unprivileged = false
   start       = true
   onboot      = true
 
