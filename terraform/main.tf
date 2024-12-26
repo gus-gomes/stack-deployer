@@ -50,7 +50,7 @@ resource "null_resource" "fetch_ips" {
         IP=$(ssh -o StrictHostKeyChecking=no root@${var.proxmox_host} "pct exec ${proxmox_lxc.lxc_container[count.index].vmid} -- ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'")
         
         if [ ! -z "$IP" ]; then
-          echo "$IP" > temp_ip_${count.index}.txt
+          echo "$IP" > ${path.module}/tmp/temp_ip_${count.index}.txt
           break
         fi
         
@@ -69,12 +69,12 @@ resource "null_resource" "fetch_ips" {
 
 data "local_file" "container_ips" {
   count = 3
-  filename = "${path.module}/temp_ip_${count.index}.txt"
+  filename = "${path.module}/tmp/temp_ip_${count.index}.txt"
   depends_on = [null_resource.fetch_ips]
 }
 
 resource "local_file" "hosts_yaml" {
-  filename = "../hosts.yaml"
+  filename = "hosts.yaml"
   content = yamlencode({
     controllers = {
       hosts = {
@@ -90,7 +90,7 @@ resource "local_file" "hosts_yaml" {
 
   provisioner "local-exec" {
     when = destroy
-    command = "rm -f temp_ip_*.txt"
+    command = "rm -f ${path.module}/tmp/temp_ip_*.txt"
   }
   
 }

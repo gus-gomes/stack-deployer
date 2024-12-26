@@ -69,6 +69,8 @@ plan:
 # Apply the Terraform deployment
 apply:
 	cd $(TF_DIR) && terraform apply -auto-approve
+	cd $(TF_DIR) && cp hosts.yaml $(INVENTORY)/hosts.yaml
+	
 # Destroy the Terraform deployment
 destroy:
 	cd $(TF_DIR) && terraform destroy -auto-approve
