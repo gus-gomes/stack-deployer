@@ -8,9 +8,7 @@ endif
 export ANSIBLE_VAULT_PASSWORD_FILE?=~/.vault
 
 # default ansible config
-ifneq ("$(wildcard ${INVENTORY}/ansible.cfg)", "")
-export ANSIBLE_CONFIG?=${INVENTORY}/ansible.cfg
-endif
+export ANSIBLE_CONFIG?=$(CURDIR)/ansible/ansible.cfg
 
 # arbitraty commandline flags for ansible-playbook
 OPTS?=
