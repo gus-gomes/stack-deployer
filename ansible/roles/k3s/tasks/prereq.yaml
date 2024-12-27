@@ -82,18 +82,24 @@
     dest: "{{ k3s_manifests_dir }}"
     mode: "0644"
 
-- name: Create symlink for /dev/kmsg
-  ansible.builtin.file:
-    src: /dev/console
-    dest: /dev/kmsg
-    state: link
-    force: yes
+- name: OS Settings
+  block:
+    - name: Disable swap temporarily
+      become: true
+      command: swapoff -a
+      ignore_errors: true
 
-- name: Set kernel parameters
-  ansible.posix.sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
-    state: present
-  loop:
-    - { name: 'vm.overcommit_memory', value: '1' }
-    - { name: 'kernel.panic', value: '10' }
+    - name: Remove swap from fstab
+      become: true
+      replace:
+        path: /etc/fstab
+        regexp: '^\s*([^#\s]+\s+){2}swap\s+'
+        replace: '#\1swap    '
+        backup: yes
+
+    - name: Ensure changes are persistent
+      become: true
+      lineinfile:
+        path: /etc/fstab
+        regexp: '^\s*([^#\s]+\s+){2}swap\s+'
+        state: absent

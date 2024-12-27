@@ -56,4 +56,14 @@ variable "sockets" {
   type        = number
 }
 
+variable "user" {
+  description = "The user for the VM"
+  type        = string  
+}
+
+variable "ssh_public_key" {
+  description = "The SSH public key"
+  type        = string
+  
+}
 

@@ -10,6 +10,7 @@ resource "proxmox_vm_qemu" "proxmox_vm" {
   name = "vm-${count.index + 1}"
   target_node = var.target_node
   clone = var.ostemplate
+  agent = 1
   
   # VM configuration
   cores = var.cores
@@ -21,6 +22,11 @@ resource "proxmox_vm_qemu" "proxmox_vm" {
   # Cloud-init settings
   os_type = "cloud-init"
   ipconfig0 = "ip=dhcp"
+
+  ciuser = var.user
+  cipassword = var.password
+
+  sshkeys = var.ssh_public_key
   
   # Disk configuration
   disk {
@@ -63,8 +69,13 @@ resource "proxmox_vm_qemu" "proxmox_vm" {
 
 resource "local_file" "ansible_inventory" {
   content = yamlencode({
-    all = {
-      hosts = proxmox_vm_qemu.proxmox_vm[*].default_ipv4_address
+    controllers = {
+      hosts = {
+        for vm in proxmox_vm_qemu.proxmox_vm : vm.name => {
+          ansible_host = vm.default_ipv4_address
+          ansible_user = var.user
+        }
+      } 
     }
   })
   filename = "hosts.yaml"
