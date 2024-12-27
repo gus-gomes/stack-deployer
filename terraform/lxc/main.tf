@@ -6,13 +6,13 @@ provider "proxmox" {
 }
 
 resource "proxmox_lxc" "lxc_container" {
-  count       = 3
+  count       = var.lxc_count
   vmid        = 102 + count.index
   target_node = var.target_node
   hostname    = "ubuntu-lxc-${count.index + 1}"
   ostemplate  = var.ostemplate
   password    = var.container_password
-  unprivileged = false
+  unprivileged = true
   start       = true
   onboot      = true
 

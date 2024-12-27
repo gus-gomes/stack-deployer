@@ -57,7 +57,8 @@ generate-inventory:
 
 ## Terraform code
 # Variables
-TF_DIR=./terraform  # Directory containing your Terraform configuration
+TF_DIR=./terraform/vm  # Directory containing your Terraform configuration
+export GODEBUG=asyncpreemptoff=1 # Required for Terraform to work with Apple M chip
 # Initialize Terraform
 init:
 	cd $(TF_DIR) && terraform init

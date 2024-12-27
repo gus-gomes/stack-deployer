@@ -1,10 +1,9 @@
 ansible/bundles/*
 .vscode/
 sbom/*
-terraform/*.txt
-terraform/tmp/*
-terraform/hosts.yaml
-terraform/secrets.auto.tfvars
+terraform/lxc/tmp/*
+terraform//lxc/hosts.yaml
+terraform/lxc/secrets.auto.tfvars
 # Local .terraform directories
 **/.terraform/*
 *.tfstate

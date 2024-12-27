@@ -1,3 +1,7 @@
+variable "vm_count" {
+  default = 3
+}
+
 variable "pm_api_url" {
   description = "The API URL for Proxmox"
   type        = string
@@ -19,25 +23,24 @@ variable "target_node" {
 }
 
 variable "ostemplate" {
-  description = "The OS template to use for LXC containers"
+  description = "The OS template to use for VM"
   type        = string
 }
 
-variable "container_password" {
-  description = "The password for the LXC container"
+variable "password" {
+  description = "The password for the VM"
   type        = string
 }
 
 variable "cores" {
-  description = "Number of CPU cores for the container"
+  description = "Number of CPU cores for the VM"
   type        = number
 }
 
 variable "memory" {
-  description = "Memory size for the container in MB"
+  description = "Memory size for the VM in MB"
   type        = number
 }
-
 variable "rootfs_storage" {
   description = "Storage for the root filesystem"
   type        = string
@@ -48,13 +51,9 @@ variable "rootfs_size" {
   type        = string
 }
 
-variable "proxmox_host" {
-  description = "The Proxmox host IP or hostname"
-  type        = string
+variable "sockets" {
+  description = "Number of sockets for the VM"
+  type        = number
 }
 
-variable "ssh_public_key" {
-  description = "The SSH public key"
-  type        = string
-}
 
