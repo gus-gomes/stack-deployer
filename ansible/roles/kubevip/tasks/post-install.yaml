@@ -1,0 +1,11 @@
+- name: Update kubeconfig with kube-vip VIP
+  ansible.builtin.replace:
+    path: ~/.kube/config
+    regexp: 'server: https://.*:6443'
+    replace: 'server: https://{{ vip_address }}:6443'
+
+#- name: Restart dnsmasq
+#  become: true
+#  ansible.builtin.systemd:
+#    name: dnsmasq
+#    state: restarted

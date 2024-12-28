@@ -2,6 +2,9 @@ enable_cert_manager: false
 enable_monitoring: false
 enable_redis: false
 enable_vault: false
+enable_kubevip: false
 
 arch: amd64
 #arm64 or amd64
+
+vip_address:

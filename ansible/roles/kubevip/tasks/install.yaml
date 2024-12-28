@@ -1,0 +1,28 @@
+- name: Download kube-vip RBAC manifest
+  ansible.builtin.get_url:
+    url: https://kube-vip.io/manifests/rbac.yaml
+    dest: "{{ k3s_manifests_dir }}/kube-vip-rbac.yaml"
+  become: true
+
+- name: Copy kube-vip manifest to k3s manifests dir
+  become: true
+  ansible.builtin.template:
+    src: "../templates/kube-vip.yaml.j2"
+    dest: "{{ k3s_manifests_dir }}/kube-vip.yaml"
+
+- name: Apply kube-vip cloud controller manifest
+  become: true
+  ansible.builtin.template:
+    src: "../templates/kube-vip-cloud-controller.yaml.j2"
+    dest: "{{ k3s_manifests_dir }}/kube-vip-cloud-controller.yaml"
+
+- name: Create kube-vip ConfigMap
+  kubernetes.core.k8s:
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: kubevip
+        namespace: kube-system
+      data:
+        range-global: "{{ vip_address }}-{{ vip_address}}"

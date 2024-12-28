@@ -1,0 +1,5 @@
+node-name: {{ inventory_hostname }}
+token: "{{ hostvars['vm-1']['token'].stdout }}"
+server: "https://{{ hostvars['vm-1']['ansible_host'] }}:6443"
+tls-san:
+  - {{ vip_address }}

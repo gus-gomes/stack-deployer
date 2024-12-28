@@ -103,3 +103,24 @@
         path: /etc/fstab
         regexp: '^\s*([^#\s]+\s+){2}swap\s+'
         state: absent
+
+- name: Install pip and kubernetes python module
+  ansible.builtin.package:
+    name: 
+      - python3
+      - python3-pip
+      - python3-kubernetes
+    state: present
+  become: true
+
+- name: Install dnsmasq
+  ansible.builtin.package:
+    name: dnsmasq
+    state: present
+  become: true
+
+- name: Configure dnsmasq
+  become: true
+  ansible.builtin.template:
+    src: "../templates/dnsmasq.conf.j2"
+    dest: /etc/dnsmasq.conf
