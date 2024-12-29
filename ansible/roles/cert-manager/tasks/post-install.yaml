@@ -6,3 +6,61 @@
     wait: true
     wait_sleep: 10
     wait_timeout: 60
+
+- name: Cert-manager | Create Certificate and key
+  block:
+    - name: Create private key
+      community.crypto.openssl_privatekey:
+        path: "{{ certs_dir }}/certificate.key"
+        type: RSA
+        size: 4096
+
+    - name: Create certificate signing request
+      community.crypto.openssl_csr_pipe:
+        privatekey_path: "{{ certs_dir }}/certificate.key"
+        common_name: homelab.k3s.local
+        organization_name: HomeLab
+        subject_alt_name:
+          - "DNS:homelab.k3s.local"
+          - "DNS:www.homelab.k3s.local"
+      register: csr
+
+    - name: Create self-signed certificate
+      community.crypto.x509_certificate:
+        path: "{{ certs_dir }}/certificate.pem"
+        csr_content: "{{ csr.csr }}"
+        privatekey_path: "{{ certs_dir }}/certificate.key"
+        provider: selfsigned
+  delegate_to: localhost
+  run_once: true
+
+- name: Get base64 encoded certificate and private key
+  block:
+    - name: Read certificate file
+      ansible.builtin.slurp:
+        src: "{{ certs_dir }}/certificate.pem"
+      register: cert_content
+
+    - name: Read private key file
+      ansible.builtin.slurp:
+        src: "{{ certs_dir }}/certificate.key"
+      register: key_content
+
+    - name: Set base64 encoded variables
+      ansible.builtin.set_fact:
+        base64_encoded_certificate: "{{ cert_content['content'] }}"
+        base64_encoded_private_key: "{{ key_content['content'] }}"
+      delegate_facts: true
+  delegate_to: localhost
+  run_once: true
+
+- name: Set base64 encoded variables on each host
+  ansible.builtin.set_fact:
+    base64_encoded_certificate: "{{ hostvars['localhost']['base64_encoded_certificate'] }}"
+    base64_encoded_private_key: "{{ hostvars['localhost']['base64_encoded_private_key'] }}"
+
+- name: Cert-manager | Inject the Certificate and key
+  become: true
+  ansible.builtin.template:
+    src: "../templates/cert.yaml.j2"
+    dest: "{{ k3s_manifests_dir }}/cert.yaml"
