@@ -13,7 +13,9 @@ redis_version: "18.13.0"
 bundle_name: "stack-deployer"
 local_bundle_dir: "{{ playbook_dir }}/bundles/{{ bundle_name }}"
 local_bundle_manifests_dir: "{{ local_bundle_dir }}/manifests"
-certs_dir: "/home/{{ ansible_user }}/.certs/"
+
+config_dir: "{{ lookup('ansible.builtin.env', 'INVENTORY') }}"
+certs_dir: "{{ config_dir }}/certs/"
 
 k3s_manifests_dir: "/var/lib/rancher/k3s/server/manifests"
 k3s_images_dir: "/var/lib/rancher/k3s/agent/images"

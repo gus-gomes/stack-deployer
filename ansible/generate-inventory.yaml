@@ -1,13 +1,16 @@
 ---
 - name: Generate Inventory
   hosts: localhost
-  vars:
-    config_dir: "{{ lookup('ansible.builtin.env', 'INVENTORY') }}"
   tasks:
   - name: Ensure Inventory Dir exists
     ansible.builtin.file:
       path: "{{ config_dir }}"
       state: directory
+
+  - name: Ensure Certs Dir exists
+    ansible.builtin.file:
+      path: "{{ certs_dir }}"
+      state: directory 
 
   - name: Copy inventory template file
     ansible.builtin.copy:

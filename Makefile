@@ -46,7 +46,7 @@ copy-keys:
 
 generate-inventory:
 	@echo 'admin' -> ~/.vault
-	$(ANSIBLE_PLAYBOOK_TOOL) ${ANS_DIR}/generate-inventory.yaml $(OPTS)
+	$(ANSIBLE_PLAYBOOK_TOOL) ansible/generate-inventory.yaml $(OPTS)
 	@echo #######################################################################################
 	@echo
 	@echo "   Generated new Inventory at ${INVENTORY} "
