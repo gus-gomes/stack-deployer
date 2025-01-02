@@ -1,27 +1,27 @@
 provider "proxmox" {
-  pm_api_url = var.pm_api_url
-  pm_api_token_id = var.pm_api_token_id
+  pm_api_url          = var.pm_api_url
+  pm_api_token_id     = var.pm_api_token_id
   pm_api_token_secret = var.pm_api_token_secret
-  pm_tls_insecure = true
+  pm_tls_insecure     = true
 }
 
 resource "proxmox_lxc" "lxc_container" {
-  count       = var.lxc_count
-  vmid        = 102 + count.index
-  target_node = var.target_node
-  hostname    = "ubuntu-lxc-${count.index + 1}"
-  ostemplate  = var.ostemplate
-  password    = var.container_password
+  count        = var.lxc_count
+  vmid         = 102 + count.index
+  target_node  = var.target_node
+  hostname     = "ubuntu-lxc-${count.index + 1}"
+  ostemplate   = var.ostemplate
+  password     = var.container_password
   unprivileged = true
-  start       = true
-  onboot      = true
+  start        = true
+  onboot       = true
 
   cores  = var.cores
   memory = var.memory
   swap   = 1024
-  
+
   ssh_public_keys = var.ssh_public_key
-  
+
   rootfs {
     storage = var.rootfs_storage
     size    = var.rootfs_size
@@ -68,8 +68,8 @@ resource "null_resource" "fetch_ips" {
 }
 
 data "local_file" "container_ips" {
-  count = 3
-  filename = "${path.module}/tmp/temp_ip_${count.index}.txt"
+  count      = 3
+  filename   = "${path.module}/tmp/temp_ip_${count.index}.txt"
   depends_on = [null_resource.fetch_ips]
 }
 
@@ -81,16 +81,16 @@ resource "local_file" "hosts_yaml" {
         for idx, ip_file in data.local_file.container_ips :
         "ubuntu-lxc-${idx + 1}" => {
           ansible_host = chomp(ip_file.content)
-          ansible_connection: "ssh"
-          ansible_user: "root"
+          ansible_connection : "ssh"
+          ansible_user : "root"
         }
       }
     }
   })
 
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = "rm -f ${path.module}/tmp/temp_ip_*.txt"
   }
-  
+
 }
